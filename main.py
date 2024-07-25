@@ -8,6 +8,7 @@ templates = Jinja2Templates(directory="templates")
 
 VIDEO_FILE = "video.mp4"
 CHUNK_SIZE = 1024 * 1024
+# CHUNK_SIZE = 256 * 256
 
 
 def generate_video_chunks():
@@ -44,4 +45,11 @@ async def stream_video(request: Request):
         content=generate_video_chunks(),
         headers=headers,
         status_code=status.HTTP_206_PARTIAL_CONTENT,
+    )
+
+
+@app.get("/asd")
+async def rota(request: Request):
+    return templates.TemplateResponse(
+        "index.html", context={"request": request, "title": "FastAPI Video Streaming"}
     )
