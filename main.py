@@ -48,8 +48,10 @@ async def stream_video(request: Request):
     )
 
 
-@app.get("/asd")
-async def rota(request: Request):
-    return templates.TemplateResponse(
-        "index.html", context={"request": request, "title": "FastAPI Video Streaming"}
-    )
+"""
+ @app.get("/asd")
+ async def rota(request: Request):
+     return templates.TemplateResponse(
+         "index.html", context={"request": request, "title": "FastAPI Video Streaming"}
+     )
+"""
