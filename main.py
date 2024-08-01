@@ -1,14 +1,23 @@
+"""
+Returns:
+    _type_: _description_
+
+Yields:
+    _type_: _description_
+"""
+
 import os
+
 from fastapi import FastAPI, Request, status
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import StreamingResponse
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI(debug=True, title="Video Streaming")
 templates = Jinja2Templates(directory="templates")
 
 VIDEO_FILE = "video.mp4"
-CHUNK_SIZE = 1024 * 1024
-# CHUNK_SIZE = 256 * 256
+# CHUNK_SIZE = 1024 * 1024
+CHUNK_SIZE = 256**2
 
 
 def generate_video_chunks():
@@ -27,11 +36,15 @@ def generate_video_chunks():
 @app.get("/")
 async def home(request: Request):
     return templates.TemplateResponse(
-        "index.html", context={"request": request, "title": "FastAPI Video Streaming"}
+        "index.html",
+        context={
+            "request": request,
+            "title": "FastAPI Video Streaming",
+        },
     )
 
 
-@app.get("/stream-video")
+@app.route("/example", methods=["GET", "POST"])
 async def stream_video(request: Request):
     file_size = os.stat(VIDEO_FILE).st_size
     headers = {
@@ -48,10 +61,20 @@ async def stream_video(request: Request):
     )
 
 
-"""
- @app.get("/asd")
- async def rota(request: Request):
-     return templates.TemplateResponse(
-         "index.html", context={"request": request, "title": "FastAPI Video Streaming"}
-     )
-"""
+@app.get("/asd")
+async def rota(request: Request):
+    return templates.TemplateResponse(
+        "index.html",
+        context={
+            "request": request,
+            "title": "FastAPI Video Streaming",
+        },
+    )
+
+
+# @app.route()
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, port=8080)
